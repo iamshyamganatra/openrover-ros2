@@ -19,8 +19,7 @@ def generate_launch_description():
         cmd=['gzserver', '--verbose',
              '-s', 'libgazebo_ros_factory.so',
              '-s', 'libgazebo_ros_init.so',
-             'worlds/willowgarage.world',
-             '__params:=/home/cottsay/demo_ws/use_sim_time.yaml'],
+             'worlds/empty.world'],
         output='screen'
     )
     gzclient_exe = launch.actions.ExecuteProcess(
