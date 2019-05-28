@@ -13,7 +13,7 @@ def generate_launch_description():
             package='cartographer_ros', node_executable='cartographer_node', output='screen',
             arguments=[
                 '-configuration_directory', get_package_share_directory('openrover_demo') + '/config',
-                '-configuration_basename', 'cartographer.lua'
+                '-configuration_basename', 'cartographer.lua', '__params:=/home/cottsay/demo_ws/use_sim_time.yaml'
             ],
             remappings=[
                 ('imu', 'imu/data')

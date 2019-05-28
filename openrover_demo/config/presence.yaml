@@ -173,3 +173,4 @@ se_node:
     # If your robot cannot instantaneously reach its deceleration limit, the permitted change can be controlled with these
     # gains
     deceleration_gains: [1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+    use_sim_time: true
