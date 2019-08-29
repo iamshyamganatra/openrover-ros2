@@ -26,26 +26,26 @@ def generate_launch_description():
 
     return LaunchDescription([
         launch.actions.SetEnvironmentVariable('RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED', '1'),
-        launch_ros.actions.LifecycleNode(
-            node_name='map_server',
-            package='nav2_map_server',
-            node_executable='map_server',
-            output='screen',
-            parameters=[nav2_yaml]
-        ),
-        launch_ros.actions.LifecycleNode(
-            node_name='amcl',
-            package='nav2_amcl',
-            node_executable='amcl',
-            output='screen',
-            parameters=[nav2_yaml],
-        ),
+        # launch_ros.actions.LifecycleNode(
+        #     node_name='map_server',
+        #     package='nav2_map_server',
+        #     node_executable='map_server',
+        #     output='screen',
+        #     parameters=[nav2_yaml]
+        # ),
+        # launch_ros.actions.LifecycleNode(
+        #     node_name='amcl',
+        #     package='nav2_amcl',
+        #     node_executable='amcl',
+        #     output='screen',
+        #     parameters=[nav2_yaml],
+        # ),
         launch_ros.actions.LifecycleNode(
             node_name='world_model',
             package='nav2_world_model',
             node_executable='world_model',
             output='screen',
-            parameters=[nav2_yaml]
+            parameters=[nav2_yaml],
         ),
         launch_ros.actions.LifecycleNode(
             node_name='dwb_controller',
@@ -84,7 +84,10 @@ def generate_launch_description():
                 nav2_yaml,
                 {
                     'autostart': True,
-                    'node_names': ['map_server', 'amcl', 'world_model', 'dwb_controller', 'navfn_planner', 'bt_navigator'],
+                    'node_names': [
+
+                        # 'map_server', 'amcl',
+                        'world_model', 'dwb_controller', 'navfn_planner', 'bt_navigator'],
                 }
             ]
         ),
