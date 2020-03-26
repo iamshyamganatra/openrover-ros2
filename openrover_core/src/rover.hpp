@@ -50,6 +50,8 @@ protected:
   void on_cmd_vel(geometry_msgs::msg::Twist::ConstSharedPtr msg);
   /// Callback for new raw data received
   void on_raw_data(openrover_core_msgs::msg::RawData::ConstSharedPtr data);
+  /// Callback for when the latest motor command expires
+  void on_cmd_vel_expire();
 
   void update_firmware_diagnostics(diagnostic_updater::DiagnosticStatusWrapper & status);
   void update_power_diagnostics(diagnostic_updater::DiagnosticStatusWrapper & status);
@@ -61,6 +63,8 @@ protected:
   data::LeftMotorEncoderState::Value odom_last_encoder_position_left;
   data::RightMotorEncoderState::Value odom_last_encoder_position_right;
   rclcpp::TimerBase::SharedPtr tmr_odometry;
+  rclcpp::TimerBase::SharedPtr tmr_cmd_vel_expire;
+
   void update_odom();
 
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pub_odom;

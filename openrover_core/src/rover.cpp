@@ -45,6 +45,11 @@ Rover::Rover() : Node("rover", rclcpp::NodeOptions().use_intra_process_comms(tru
   top_speed_linear = declare_parameter("top_speed_linear", 3.05);
   top_speed_angular = declare_parameter("top_speed_angular", 16.2);
 
+  // If we receive no speed command in this long, kill the motors
+  auto cmd_vel_timeout = declare_parameter("cmd_vel_timeout", 1.0);
+  tmr_cmd_vel_expire = create_wall_timer(
+      1s * cmd_vel_timeout, [this]() { this->on_cmd_vel_expire(); });
+
   /// If both motor encoders have traveled a combined n increments, this times n
   /// is how far the rover has traveled.
   // this value determined by driving straight and dividing distance by average
@@ -123,6 +128,7 @@ void Rover::on_cmd_vel(geometry_msgs::msg::Twist::ConstSharedPtr msg)
   right_motor_controller->set_target(r_motor);
 
   RCLCPP_DEBUG(get_logger(), "Updated target motor speeds %f %f", l_motor, r_motor);
+  tmr_cmd_vel_expire->reset();
 }
 
 void openrover::Rover::update_odom()
@@ -235,6 +241,14 @@ void openrover::Rover::update_odom()
   odom_last_encoder_position_left = left_encoder_position->state;
   odom_last_encoder_position_right = right_encoder_position->state;
   odom_last_time = now;
+}
+
+void Rover::on_cmd_vel_expire() {
+  left_motor_controller->set_target(0.0);
+  right_motor_controller->set_target(0.0);
+
+  RCLCPP_INFO(get_logger(), "No motor instructions received... Resetting target speed to 0");
+  tmr_cmd_vel_expire->cancel();
 }
 
 void openrover::Rover::on_raw_data(openrover_core_msgs::msg::RawData::ConstSharedPtr data)
@@ -364,3 +378,4 @@ void Rover::update_drive_diagnostics(diagnostic_updater::DiagnosticStatusWrapper
 
   if (status.message.empty()) status.message = "Okay";
 }
+

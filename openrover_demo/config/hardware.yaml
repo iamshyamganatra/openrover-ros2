@@ -11,6 +11,7 @@ rover:
     motor_control_gain_p: 0.0005
     motor_control_gain_i: 0.004
     motor_control_windup: 100.0
+    cmd_vel_timeout: 2.0
 
 rplidar_node:
   ros__parameters:
