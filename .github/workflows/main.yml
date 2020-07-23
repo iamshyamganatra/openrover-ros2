@@ -1,0 +1,23 @@
+on: push
+jobs:
+  build:
+    strategy:
+      matrix:
+      include:
+        - ros-distro: master
+          image: ros:rolling-ros-base
+    runs-on: ubuntu-latest
+    # NB: this line would break if we tried to make ros-distro
+    #     an environment variable instead of a matrix entry
+    container: ${{matrix.image}}
+    steps:
+      - run: sudo rm -rf /etc/ros/rosdep/
+      - uses: ros-tooling/setup-ros@0.0.25
+        with:
+          required-ros-distributions: ${{matrix.ros-distro}}
+      - uses: ros-tooling/action-ros-ci@0.0.17
+        with:
+          package-name: openrover_demo
+          source-ros-binary-installation: ${{matrix.ros-distro}}
+          vcs-repo-file-url: >
+            https://raw.githubusercontent.com/${{github.repository}}/${{github.sha}}/openrover_demo/openrover-demo.repos
