@@ -5,9 +5,9 @@ jobs:
       matrix:
         include:
           - ros-distro: foxy
-            image: ros:foxy-ros-base
-          - ros-distro: master
-            image: ros:rolling-ros-base
+            image: ros:foxy
+          - ros-distro: rolling
+            image: ros:rolling
     runs-on: ubuntu-latest
     # NB: this line would break if we tried to make ros-distro
     #     an environment variable instead of a matrix entry
