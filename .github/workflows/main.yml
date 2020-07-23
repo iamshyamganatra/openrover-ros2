@@ -3,9 +3,9 @@ jobs:
   build:
     strategy:
       matrix:
-      include:
-        - ros-distro: master
-          image: ros:rolling-ros-base
+        include:
+          - ros-distro: master
+            image: ros:rolling-ros-base
     runs-on: ubuntu-latest
     # NB: this line would break if we tried to make ros-distro
     #     an environment variable instead of a matrix entry
