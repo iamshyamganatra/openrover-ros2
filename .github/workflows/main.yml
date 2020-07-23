@@ -4,6 +4,8 @@ jobs:
     strategy:
       matrix:
         include:
+          - ros-distro: foxy
+            image: ros:foxy-ros-base
           - ros-distro: master
             image: ros:rolling-ros-base
     runs-on: ubuntu-latest
